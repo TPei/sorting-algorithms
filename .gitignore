@@ -28,3 +28,13 @@ InsertionSort/InsertionSort/App.config
 *.class
 
 hs_err_pid33853.log
+
+.classpath
+
+.project
+
+.settings/org.eclipse.core.resources.prefs
+
+bin/.gitignore
+
+hs_err_pid31135.log

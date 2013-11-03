@@ -1,4 +1,4 @@
-package main;
+package Helper;
 
 public interface Sorter
 {

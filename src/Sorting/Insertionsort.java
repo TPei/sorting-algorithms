@@ -3,8 +3,9 @@ package Sorting;
 import java.util.ArrayList;
 import java.util.Random;
 
-import main.CountingSorter;
-import main.Sorter;
+
+import Helper.CountingSorter;
+import Helper.Sorter;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
