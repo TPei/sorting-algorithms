@@ -1,5 +1,7 @@
 package Sorting;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,7 +56,9 @@ public class Insertionsort extends CountingSorter implements Sorter
 		System.out.println(seconds + "s");
 		System.out.println("---------------------");
 		//System.out.println("finished");*/
-		System.out.println("Insertionsort: " + getC() + " Schritte");
+		
+		
+		//System.out.println("Insertionsort: " + getC() + " Schritte");
 	}
 	
 	

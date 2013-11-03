@@ -33,77 +33,165 @@ public class TestSort
 	
 	public void testSort()
 	{
-		//BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-		//bw.write("<html><head><title>New Page</title></head><body><p>This is Body</p></body></html>");
-		//bw.close();
-		
-		System.out.println("Sort mit " + length + " Elementen (unsortiert)");
-		new Insertionsort().sort(testArray);
-		System.out.println("---------");
-		testArray = copy.clone();
-		new Quicksort().sort(testArray);
-		System.out.println("---------");
-		testArray = copy.clone();
-		new QuicksortMedian3X().sort(testArray);
-		System.out.println("---------");
-		testArray = copy.clone();
-		new QuicksortRandomX().sort(testArray);
-		
-		System.out.println("-------------------");
-		System.out.println("-------------------");
-		
-		System.out.println("Sort mit " + length + " Elementen (vorsortiert)");
-		new Insertionsort().sort(testArray);
-		System.out.println("---------");
-		new Quicksort().sort(testArray);
-		System.out.println("---------");
-		new QuicksortMedian3X().sort(testArray);
-		System.out.println("---------");
-		new QuicksortRandomX().sort(testArray);
-		
-		System.out.println("-------------------");
-		System.out.println("-------------------");
-		
-		// invert array
-		for(int i = 0; i < testArray.length / 2; i++)
-		{
-		    int temp = testArray[i];
-		    testArray[i] = testArray[testArray.length - i - 1];
-		    testArray[testArray.length - i - 1] = temp;
+		try{
+			BufferedWriter bw = new BufferedWriter(new FileWriter("ausgabe.html"));
+			bw.write("<html><head><title>Testausgabe</title><style>table,th, td{border: 1px solid black;}</style></head><body>");
+			bw.write("<table><thead><td>Versuche</td><td>Insertionsort</td><td>Quicksort</td><td>Quicksort Median</td><td>Quicksort Random</td></thead><tr>");
+			bw.write("<tr><td>Sort mit " + length + " Elementen (unsortiert)</td></tr>");
+			bw.write("<td>Schritte");
+			bw.write("</td><td>");
+			Insertionsort myInsertion = new Insertionsort();
+			myInsertion.sort(testArray);
+			bw.write(Integer.toString(myInsertion.getC()));
+			testArray = copy.clone();
+			bw.write("</td><td>");
+			
+			Quicksort myQuicksort = new Quicksort();
+			myQuicksort.sort(testArray);
+			bw.write(Integer.toString(myQuicksort.getC()));
+			
+			testArray = copy.clone();
+			bw.write("</td><td>");
+			
+			QuicksortMedian3X myQuicksortMedian = new QuicksortMedian3X();
+			myQuicksortMedian.sort(testArray);
+			bw.write(Integer.toString(myQuicksortMedian.getC()));
+			
+			testArray = copy.clone();
+			bw.write("</td><td>");
+			
+			QuicksortRandomX myQuicksortRandom = new QuicksortRandomX();
+			myQuicksortRandom.sort(testArray);
+			bw.write(Integer.toString(myQuicksortRandom.getC()));
+			
+			bw.write("</td></tr>");
+			
+			bw.write("</td></tr>");
+			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
+			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
+			bw.write("</td></tr>");
+			
+			
+			bw.write("<tr><td>Sort mit " + length + " Elementen (vorsortiert)</td></tr>");
+			bw.write("<td>Schritte");
+			bw.write("</td><td>");
+			myInsertion.sort(testArray);
+			bw.write(Integer.toString(myInsertion.getC()));
+			bw.write("</td><td>");
+			
+			myQuicksort.sort(testArray);
+			bw.write(Integer.toString(myQuicksort.getC()));
+			
+			bw.write("</td><td>");
+			myQuicksortMedian.sort(testArray);
+			bw.write(Integer.toString(myQuicksortMedian.getC()));
+			
+			bw.write("</td><td>");
+			
+			myQuicksortRandom.sort(testArray);
+			bw.write(Integer.toString(myQuicksortRandom.getC())); 
+			
+			bw.write("</td></tr>");
+			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
+			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
+			bw.write("</td></tr>");
+			
+			// invert array
+			for(int i = 0; i < testArray.length / 2; i++)
+			{
+			    int temp = testArray[i];
+			    testArray[i] = testArray[testArray.length - i - 1];
+			    testArray[testArray.length - i - 1] = temp;
+			}
+			invert = testArray.clone(); // copy of inverted array
+			
+			bw.write("<tr><td>Sort mit " + length + " Elementen (absteigend sortiert)</td></tr>");
+			bw.write("<td>Schritte");
+			bw.write("</td><td>");
+			myInsertion.sort(testArray);
+			bw.write(Integer.toString(myInsertion.getC()));
+			testArray = invert.clone();
+			bw.write("</td><td>");
+			
+			myQuicksort.sort(testArray);
+			bw.write(Integer.toString(myQuicksort.getC()));
+			
+			testArray = invert.clone();
+			bw.write("</td><td>");
+			
+			myQuicksortMedian.sort(testArray);
+			bw.write(Integer.toString(myQuicksortMedian.getC()));
+			
+			testArray = invert.clone();
+			bw.write("</td><td>");
+			
+			myQuicksortRandom.sort(testArray);
+			bw.write(Integer.toString(myQuicksortRandom.getC()));
+			
+			bw.write("</td></tr>");
+			
+			bw.write("</td></tr>");
+			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
+			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
+			bw.write("</td></tr>");
+			
+			
+			for (int i=0; i<length; i++)
+			{
+				int n = (int)(Math.random()*99);
+				testArray[i] = n;
+			}
+			copy = testArray.clone();
+			
+			bw.write("<tr><td>Sort mit " + length + " Elementen (unsortiert, 0 - 99)</td></tr>");
+			bw.write("<td>Schritte");
+			bw.write("</td><td>");
+			myInsertion.sort(testArray);
+			bw.write(Integer.toString(myInsertion.getC()));
+			testArray = copy.clone();
+			bw.write("</td><td>");
+			
+			myQuicksort.sort(testArray);
+			bw.write(Integer.toString(myQuicksort.getC()));
+			
+			testArray = copy.clone();
+			bw.write("</td><td>");
+			
+			myQuicksortMedian.sort(testArray);
+			bw.write(Integer.toString(myQuicksortMedian.getC()));
+			
+			testArray = copy.clone();
+			bw.write("</td><td>");
+			
+			myQuicksortRandom.sort(testArray);
+			bw.write(Integer.toString(myQuicksortRandom.getC()));
+			bw.write("</td></tr>");
+			
+			bw.write("</td></tr>");
+			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
+			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
+			bw.write("</td><td>");
+			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
+			bw.write("</td></tr>");
+			
+			bw.write("</table>");
+			bw.write("</body></html>");
+			bw.close();
+		}catch(Exception exc){
 		}
-		invert = testArray.clone(); // copy of inverted array
-		
-		System.out.println("Sort mit " + length + " Elementen (absteigend sortiert)");
-		new Insertionsort().sort(testArray);
-		System.out.println("---------");
-		testArray = invert.clone();
-		new Quicksort().sort(testArray);
-		System.out.println("---------");
-		testArray = invert.clone();
-		new QuicksortMedian3X().sort(testArray);
-		System.out.println("---------");
-		testArray = invert.clone();
-		new QuicksortRandomX().sort(testArray);
-		
-		System.out.println("-------------------");
-		System.out.println("-------------------");
-		
-		for (int i=0; i<length; i++)
-		{
-			int n = (int)(Math.random()*99);
-			testArray[i] = n;
-		}
-		copy = testArray.clone();
-		System.out.println("Sort mit " + length + " Elementen (unsortiert, 0-99)");
-		new Insertionsort().sort(testArray);
-		System.out.println("---------");
-		testArray = copy.clone();
-		new Quicksort().sort(testArray);
-		System.out.println("---------");
-		testArray = copy.clone();
-		new QuicksortMedian3X().sort(testArray);
-		System.out.println("---------");
-		testArray = copy.clone();
-		new QuicksortRandomX().sort(testArray);
 	}
 }

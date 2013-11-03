@@ -1,5 +1,8 @@
 package Sorting;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import Helper.CountingSorter;
 import Helper.Sorter;
 
@@ -15,8 +18,8 @@ public class Quicksort extends CountingSorter implements Sorter
         n=a.length;
         quicksort(0, n-1);
         
-		System.out.println("Quicksort: " + getC() + " Schritte");
-		System.out.println("Rekursionstiefe: " + getRekursionDepth());
+		//System.out.println("Quicksort: " + getC() + " Schritte");
+		//System.out.println("Rekursionstiefe: " + getRekursionDepth());
     }
 
     private void quicksort (int lo, int hi)
