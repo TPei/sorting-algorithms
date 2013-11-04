@@ -12,7 +12,7 @@ import Helper.Sorter;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class Insertionsort extends CountingSorter implements Sorter
-{
+{	/*
 	public Insertionsort()
 	{
 		 
@@ -26,11 +26,6 @@ public class Insertionsort extends CountingSorter implements Sorter
 		 
 		for (int i = 1; i < a.length; i++)
 		{
-			/*for (int j = 0; j < sortedCount; j++)
-			{
-				if(a[i] < a[j])
-					addBefore(a, j, i);
-			}*/
 			
 			int j = i-1;
 			int copy = a[c(i)];
@@ -58,8 +53,32 @@ public class Insertionsort extends CountingSorter implements Sorter
 		//System.out.println("finished");*/
 		
 		
-		//System.out.println("Insertionsort: " + getC() + " Schritte");
-	}
+		//System.out.println("Insertionsort: " + getC() + " Schritte");*/
+private int[] a;
+private int n;
+
+public void sort(int[] a)
+{
+    this.a=a;
+    n=a.length;
+    insertionsort();
+}
+
+private void insertionsort()
+{
+    int i, j, t;
+    for (i=1; i<n; i++)
+    {
+        j=i;
+        t=a[c(j)];
+        while (j>0 && a[j-1]>t)
+        {
+            a[c(j)]=a[c(j-1)];
+            j--;
+        }
+        a[c(j)]=t;
+    }
+}
 	
 	
 	/**

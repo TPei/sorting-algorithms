@@ -8,18 +8,14 @@ import Helper.Sorter;
 
 public class Quicksort extends CountingSorter implements Sorter
 {
-    private int[] a;
+	private int[] a;
     private int n;
-    
-    @Override
+
     public void sort(int[] a)
     {
         this.a=a;
         n=a.length;
         quicksort(0, n-1);
-        
-		//System.out.println("Quicksort: " + getC() + " Schritte");
-		//System.out.println("Rekursionstiefe: " + getRekursionDepth());
     }
 
     private void quicksort (int lo, int hi)
@@ -27,7 +23,7 @@ public class Quicksort extends CountingSorter implements Sorter
     	incrementRekursionDepth();
         int i=lo, j=hi;
 
-        // Vergleichselement x
+        // Vergleichs­element x
         int x=a[c((lo+hi)/2)];
 
         //  Aufteilung
@@ -47,7 +43,7 @@ public class Quicksort extends CountingSorter implements Sorter
         if (i<hi) quicksort(i, hi);
     }
 
-	private void exchange(int i, int j)
+    private void exchange(int i, int j)
     {
         int t=a[c(i)];
         a[c(i)]=a[c(j)];
