@@ -1,5 +1,6 @@
 package main;
 
+import test.TestTable;
 import Helper.TestSort;
 
 public class Main
@@ -22,6 +23,7 @@ public class Main
 			System.out.println("-------------------------");
 			noOfElements *= 10;
 		}*/
+		
 		new TestSort(1000).testSort();
 		
 		
