@@ -12,9 +12,12 @@ import test.TestTable;
 
 import Sorting.Insertionsort;
 import Sorting.Mergesort;
+import Sorting.MyMergesort;
 import Sorting.MyQuicksort;
-import Sorting.MyQuicksort2;
+import Sorting.QuicksortCombined;
+import Sorting.QuicksortJannik;
 import Sorting.Quicksort;
+import Sorting.QuicksortJonas;
 import Sorting.QuicksortMedian3X;
 import Sorting.QuicksortRandomX;
 
@@ -22,8 +25,6 @@ public class TestSort
 {
 	int length;
 	int[] testArray;
-	int[] copy;
-	int[] invert;
 
 	public TestSort(int length)
 	{
@@ -31,496 +32,49 @@ public class TestSort
 
 		int arrayLength = length;
 		testArray = new int[arrayLength];
-		copy = new int[arrayLength];
-		invert = new int[arrayLength];
 		for (int i = 0; i < arrayLength; i++)
 		{
 			int n = (int) (Math.random() * 100000 - 50000);
 			testArray[i] = n;
 		}
-		copy = testArray.clone();
 	}
 
 	public void testSort()
 	{
 		try
 		{
-			BufferedWriter bw = new BufferedWriter(new FileWriter("ausgabe.html"));
-			bw.write("<html><head><title>Testausgabe</title><style>table,th, td{border: 1px solid black;}</style></head><body>");
-			bw.write("<table><thead><td>Versuche</td><td>Insertionsort</td><td>Quicksort</td><td>MyQuicksort</td><td>MyQuickSort2</td><td>Quicksort Median</td><td>Quicksort Random</td><td>Mergesort</td></thead><tr>");
-			bw.write("<tr><td>Sort mit " + length + " Elementen (unsortiert)</td></tr>");
-			bw.write("<td>Schritte");
-			bw.write("</td><td>");
-			System.out.println("TestArray:");
-			for(int i = 0; i < testArray.length; i++)
-    			System.out.print(testArray[i] + ", ");
-			System.out.println();
-			Insertionsort myInsertion = new Insertionsort();
-			myInsertion.sort(testArray);
-			bw.write(Integer.toString(myInsertion.getC()));
+			BufferedWriter testWriter = new BufferedWriter(new FileWriter("ausgabe2.html"));
+			testWriter.write("<html><head></head><body>");
 			
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted");
-	    		System.out.println("not sorted");
-	    		for(int i = 0; i < testArray.length; i++)
-	    			System.out.print(testArray[i] + ", ");
-				System.out.println();
-			}
+			List<String[]> values = new ArrayList<>();
 			
-			testArray = copy.clone();
-			bw.write("</td><td>");
+			// random array
+			values = getValueList(testArray, "unsortiert", values);
+						
+			// now it's sorted
+			values = getValueList(testArray, "vorsortiert", values);
 
-			Quicksort quicksort = new Quicksort();
-			quicksort.sort(testArray);
-			bw.write(Integer.toString(quicksort.getC()));
-			
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted1");
-	    		System.out.println("not sorted1");
-	    		for(int i = 0; i < testArray.length; i++)
-	    			System.out.print(testArray[i] + ", ");
-				System.out.println();
-			}
-
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			System.out.println("Quicksort 2");
-			MyQuicksort myQuicksort = new MyQuicksort();
-			myQuicksort.sort(testArray);
-			bw.write(Integer.toString(myQuicksort.getC()));
-			
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted2");
-	    		System.out.println("not sorted2");
-	    		for(int i = 0; i < testArray.length; i++)
-	    			System.out.print(testArray[i] + ", ");
-				System.out.println();
-			}
-			
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			
-			MyQuicksort2 myQuicksortImproved = new MyQuicksort2();
-			myQuicksortImproved.sort(testArray);
-			bw.write(Integer.toString(myQuicksortImproved.getC()));
-			
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted3");
-	    		System.out.println("not sorted3");
-			}
-			testArray = copy.clone();
-			bw.write("</td><td>");
-
-			QuicksortMedian3X myQuicksortMedian = new QuicksortMedian3X();
-			myQuicksortMedian.sort(testArray);
-			bw.write(Integer.toString(myQuicksortMedian.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted4");
-	    		System.out.println("not sorted4");
-			}
-
-			testArray = copy.clone();
-			bw.write("</td><td>");
-
-			QuicksortRandomX myQuicksortRandom = new QuicksortRandomX();
-			myQuicksortRandom.sort(testArray);
-			bw.write(Integer.toString(myQuicksortRandom.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted5");
-	    		System.out.println("not sorted5");
-			}
-
-			bw.write("</td><td>");
-			
-			testArray = copy.clone();
-			Mergesort mergesort = new Mergesort();
-			mergesort.sort(testArray);
-			bw.write(Integer.toString(mergesort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted6");
-	    		System.out.println("not sorted5");
-			}
-
-			bw.write("</td></tr>");
-
-			bw.write("</td></tr>");
-			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
-			bw.write(Integer.toString(quicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortImproved.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(mergesort.getRekursionDepth()));
-			bw.write("</td></tr>");
-
-			bw.write("<tr><td>Sort mit " + length + " Elementen (vorsortiert)</td></tr>");
-			for (int i = 0; i < length; i++)
-			{
-				testArray[i] = i;
-			}
-			copy = testArray.clone();
-			
-			bw.write("<td>Schritte");
-			bw.write("</td><td>");
-			myInsertion.sort(testArray);
-			bw.write(Integer.toString(myInsertion.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted7");
-	    		System.out.println("not sorted7");
-			}
-			bw.write("</td><td>");
-			
-			testArray = copy.clone();
-			
-			quicksort.sort(testArray);
-			bw.write(Integer.toString(quicksort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted8");
-	    		System.out.println("not sorted8");
-			}
-			
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			System.out.println("Quicksort 9");
-			myQuicksort.sort(testArray);
-			bw.write(Integer.toString(myQuicksort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted9");
-	    		System.out.println("not sorted9");
-			}
-			
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			
-			myQuicksortImproved.sort(testArray);
-			bw.write(Integer.toString(myQuicksortImproved.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted10");
-	    		System.out.println("not sorted10");
-			}
-			
-
-			bw.write("</td><td>");
-			testArray = copy.clone();
-			myQuicksortMedian.sort(testArray);
-			bw.write(Integer.toString(myQuicksortMedian.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted11");
-	    		System.out.println("not sorted11");
-			}
-
-			bw.write("</td><td>");
-			testArray = copy.clone();
-			myQuicksortRandom.sort(testArray);
-			bw.write(Integer.toString(myQuicksortRandom.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted12");
-	    		System.out.println("not sorted12");
-			}
-			
-			bw.write("</td><td>");
-			testArray = copy.clone();
-			
-			mergesort.sort(testArray);
-			bw.write(Integer.toString(mergesort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted13");
-	    		System.out.println("not sorted13");
-			}
-
-			bw.write("</td></tr>");
-			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
-			bw.write(Integer.toString(quicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortImproved.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(mergesort.getRekursionDepth()));
-			bw.write("</td></tr>");
-
+			// reverse sorted
 			Helper.reverseArray(testArray);
-			invert = testArray.clone(); // copy of inverted array
+			values = getValueList(testArray, "absteigend sortiert", values);
 
-			bw.write("<tr><td>Sort mit " + length + " Elementen (absteigend sortiert)</td></tr>");
-			bw.write("<td>Schritte");
-			bw.write("</td><td>");
-			myInsertion.sort(testArray);
-			bw.write(Integer.toString(myInsertion.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted14");
-				System.out.println("not sorted14");
-			}
-			testArray = invert.clone();
-			bw.write("</td><td>");
-
-			quicksort.sort(testArray);
-			bw.write(Integer.toString(quicksort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted15");
-	    		System.out.println("not sorted15");
-			}
-
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			
-			myQuicksort.sort(testArray);
-			System.out.println("Quicksort 16");
-			bw.write(Integer.toString(myQuicksort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted16");
-	    		System.out.println("not sorted16");
-			}
-			
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			
-			myQuicksortImproved.sort(testArray);
-			bw.write(Integer.toString(myQuicksortImproved.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted17");
-	    		System.out.println("not sorted17");
-			}
-			
-			testArray = invert.clone();
-			bw.write("</td><td>");
-
-			myQuicksortMedian.sort(testArray);
-			bw.write(Integer.toString(myQuicksortMedian.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted18");
-	    		System.out.println("not sorted18");
-			}
-
-			testArray = invert.clone();
-			bw.write("</td><td>");
-
-			myQuicksortRandom.sort(testArray);
-			bw.write(Integer.toString(myQuicksortRandom.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted19");
-	    		System.out.println("not sorted19");
-			}
-			
-			bw.write("</td><td>");
-			testArray = invert.clone();
-			
-			mergesort.sort(testArray);
-			bw.write(Integer.toString(mergesort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted20");
-				System.out.println("not sorted20");
-			}
-
-			bw.write("</td></tr>");
-			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
-			bw.write(Integer.toString(quicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortImproved.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(mergesort.getRekursionDepth()));
-			bw.write("</td></tr>");
-
+			// only small numbers
 			for (int i = 0; i < length; i++)
 			{
 				int n = (int) (Math.random() * 99);
 				testArray[i] = n;
 			}
-			copy = testArray.clone();
-
-			bw.write("<tr><td>Sort mit " + length + " Elementen (unsortiert, 0 - 99)</td></tr>");
-			bw.write("<td>Schritte");
-			bw.write("</td><td>");
-			myInsertion.sort(testArray);
-			bw.write(Integer.toString(myInsertion.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted21");
-				System.out.println("not sorted21");
-			}
-			testArray = copy.clone();
-			bw.write("</td><td>");
-
-			quicksort.sort(testArray);
-			bw.write(Integer.toString(quicksort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted22");
-	    		System.out.println("not sorted22");
-			}
+			values = getValueList(testArray, "Wertebereich 0-99", values);
 			
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			
-			System.out.println("Quicksort 23");
-			myQuicksort.sort(testArray);
-			bw.write(Integer.toString(myQuicksort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted23");
-	    		System.out.println("not sorted23");
-			}
-			
-			testArray = copy.clone();
-			bw.write("</td><td>");
-			
-			myQuicksortImproved.sort(testArray);
-			bw.write(Integer.toString(myQuicksortImproved.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted24");
-	    		System.out.println("not sorted24");
-			}
-
-			testArray = copy.clone();
-			bw.write("</td><td>");
-
-			myQuicksortMedian.sort(testArray);
-			bw.write(Integer.toString(myQuicksortMedian.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted25");
-	    		System.out.println("not sorted25");
-			}
-
-			testArray = copy.clone();
-			bw.write("</td><td>");
-
-			myQuicksortRandom.sort(testArray);
-			bw.write(Integer.toString(myQuicksortRandom.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted26");
-	    		System.out.println("not sorted26");
-			}
-			
-			bw.write("</td><td>");
-			testArray = copy.clone();
-			
-			mergesort.sort(testArray);
-			bw.write(Integer.toString(mergesort.getC()));
-			if(!Helper.isSorted(testArray))
-			{
-				//bw.close();
-	    		//throw new Exception("array wasn't sorted27");
-	    		System.out.println("not sorted27");
-			}
-
-			bw.write("</td></tr>");
-			bw.write("<td>Rekursionstiefe</td><td>-</td><td>");
-			bw.write(Integer.toString(quicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksort.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortImproved.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortMedian.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(myQuicksortRandom.getRekursionDepth()));
-			bw.write("</td><td>");
-			bw.write(Integer.toString(mergesort.getRekursionDepth()));
-			bw.write("</td></tr>");
-
-			bw.write("</table>");
-			bw.write("</body></html>");
-			bw.close();
-
-			newTest();
-
-		} catch (Exception exc)
-		{
-			System.out.println("Error!");
-			System.out.println(exc.getMessage());
-		}
-	}
-
-	private void newTest()
-	{
-		// ---------------------------
-		// ---------------------------
-		// ---------------------------
-		// Testausgabe mit neuer Klasse
-		// ---------------------------
-		// ---------------------------
-		// ---------------------------
-		try
-		{
-			BufferedWriter testWriter = new BufferedWriter(new FileWriter("ausgabe2.html"));
-			List<String[]> values = new ArrayList<>();
-			values.add(new String[] { "Sort mit 1000 Elementen unsortiert", "28442", "24808", "29851", "58331541" });
-
-			values.add(new String[] { "Rekursionstiefe", "-", "890", "960", "254133" });
-
-			testWriter.write("<html><head></head><body>");
 			Table<String[]> table = new Table<>(values);
 			table.addHeader("Versuche");
 			table.addHeader("Insertionsort");
 			table.addHeader("Quicksort");
-			table.addHeader("Quicksort Median");
+			table.addHeader("MyQuicksort");
+			table.addHeader("QuicksortMedianX");
 			table.addHeader("QuicksortRandomX");
+			table.addHeader("Mergesort");
+			table.addHeader("MyMergesort");
 
 			table.setContentProvider(new TableContentProvider<String[]>()
 			{
@@ -534,11 +88,66 @@ public class TestSort
 			testWriter.write(table.render());
 			testWriter.write("</body></html>");
 			testWriter.close();
+
 		} catch (Exception exc)
 		{
 			System.out.println("Error!");
 			System.out.println(exc.getMessage());
 		}
+	}
+
+	/**
+	 * expects an array to sort, a description of that array and an exisiting list of values
+	 * @param arrayToSort
+	 * @param status
+	 * @param values
+	 * @return List<String[]> of values
+	 */
+	private List<String[]> getValueList(int[] arrayToSort, String status, List<String[]> values)
+	{
+		int length = arrayToSort.length;
+		int[] copy = arrayToSort.clone();
+
+		Insertionsort myInsertion = new Insertionsort();
+		myInsertion.sort(arrayToSort);
+
+		arrayToSort = copy.clone();
+
+		Quicksort quicksort = new Quicksort();
+		quicksort.sort(arrayToSort);
+
+		arrayToSort = copy.clone();
+
+		MyQuicksort myQuicksort = new MyQuicksort();
+		myQuicksort.sort(arrayToSort);
+
+		arrayToSort = copy.clone();
+
+		QuicksortMedian3X myQuicksortMedian = new QuicksortMedian3X();
+		myQuicksortMedian.sort(arrayToSort);
+
+		arrayToSort = copy.clone();
+
+		QuicksortRandomX myQuicksortRandom = new QuicksortRandomX();
+		myQuicksortRandom.sort(arrayToSort);
+
+		arrayToSort = copy.clone();
+		Mergesort mergesort = new Mergesort();
+		mergesort.sort(arrayToSort);
+
+		arrayToSort = copy.clone();
+		MyMergesort myMergesort = new MyMergesort();
+		myMergesort.sort(arrayToSort);
+
+		values.add(new String[] { "Sort mit " + length + " Elementen " + status, Integer.toString(myInsertion.getC()), Integer.toString(quicksort.getC()),
+				Integer.toString(myQuicksort.getC()), Integer.toString(myQuicksortMedian.getC()), Integer.toString(myQuicksortRandom.getC()),
+				Integer.toString(mergesort.getC()), Integer.toString(myMergesort.getC()) });
+
+		values.add(new String[] { "Rekursionstiefe", "-", Integer.toString(quicksort.getRekursionDepth()), Integer.toString(myQuicksort.getRekursionDepth()),
+				Integer.toString(myQuicksortMedian.getRekursionDepth()), Integer.toString(myQuicksortRandom.getRekursionDepth()),
+				Integer.toString(mergesort.getRekursionDepth()), Integer.toString(myMergesort.getRekursionDepth()) });
+
+		return values;
 
 	}
 }

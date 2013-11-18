@@ -3,7 +3,7 @@ package Sorting;
 import Helper.CountingSorter;
 import Helper.Sorter;
 
-public class Mergesort extends CountingSorter implements Sorter
+public class MyMergesort extends CountingSorter implements Sorter
 {
     private int[] a;
     private int[] b;    // Hilfsarray
