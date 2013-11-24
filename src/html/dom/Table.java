@@ -49,6 +49,7 @@ public class Table<T> extends AbstractElement {
         for (TableHeader header : this.headers) {
             Element th = new Element(DOM.TH);
             th.addStyle("width", header.width);
+            th.addStyle("border", "1px solid black");
             th.appendString(header.name);
             tr.addChild(th);
         }
@@ -64,6 +65,7 @@ public class Table<T> extends AbstractElement {
             for (String cell : row) {
                 Element td = new Element(DOM.TD);
                 td.appendString(cell);
+                td.addStyle("border", "1px solid black");
                 tr.addChild(td);
             }
 

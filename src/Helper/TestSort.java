@@ -5,11 +5,13 @@ import html.dom.TableContentProvider;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import test.TestTable;
 
+import Sorting.Heapsort;
 import Sorting.Insertionsort;
 import Sorting.Mergesort;
 import Sorting.MyMergesort;
@@ -20,6 +22,15 @@ import Sorting.Quicksort;
 import Sorting.QuicksortJonas;
 import Sorting.QuicksortMedian3X;
 import Sorting.QuicksortRandomX;
+
+class NotSortedException extends Exception
+{
+	public NotSortedException() {}
+	public NotSortedException(String s)
+	{
+		super(s);
+	}
+}
 
 public class TestSort
 {
@@ -75,6 +86,7 @@ public class TestSort
 			table.addHeader("QuicksortRandomX");
 			table.addHeader("Mergesort");
 			table.addHeader("MyMergesort");
+			table.addHeader("Heapsort");
 
 			table.setContentProvider(new TableContentProvider<String[]>()
 			{
@@ -89,7 +101,16 @@ public class TestSort
 			testWriter.write("</body></html>");
 			testWriter.close();
 
-		} catch (Exception exc)
+		}
+		catch (NotSortedException exc){
+			System.out.println("Array wasn't sorted correctly!");
+			System.out.println(exc.getMessage());
+		}
+		catch (IOException exc){
+			System.out.println("IO Exception");
+			System.out.println(exc.getMessage());
+		}
+		catch (Exception exc)
 		{
 			System.out.println("Error!");
 			System.out.println(exc.getMessage());
@@ -103,49 +124,77 @@ public class TestSort
 	 * @param values
 	 * @return List<String[]> of values
 	 */
-	private List<String[]> getValueList(int[] arrayToSort, String status, List<String[]> values)
+	private List<String[]> getValueList(int[] arrayToSort, String status, List<String[]> values) throws NotSortedException
 	{
 		int length = arrayToSort.length;
 		int[] copy = arrayToSort.clone();
 
 		Insertionsort myInsertion = new Insertionsort();
 		myInsertion.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
 		Quicksort quicksort = new Quicksort();
 		quicksort.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
 		MyQuicksort myQuicksort = new MyQuicksort();
 		myQuicksort.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
 		QuicksortMedian3X myQuicksortMedian = new QuicksortMedian3X();
 		myQuicksortMedian.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
 		QuicksortRandomX myQuicksortRandom = new QuicksortRandomX();
 		myQuicksortRandom.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 		Mergesort mergesort = new Mergesort();
 		mergesort.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 		MyMergesort myMergesort = new MyMergesort();
 		myMergesort.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
+		
+		arrayToSort = copy.clone();
+		Heapsort myHeapsort = new Heapsort();
+		myHeapsort.sort(arrayToSort);
+		
+		if(!Helper.isSorted(arrayToSort))
+			throw new NotSortedException();
 
 		values.add(new String[] { "Sort mit " + length + " Elementen " + status, Integer.toString(myInsertion.getC()), Integer.toString(quicksort.getC()),
 				Integer.toString(myQuicksort.getC()), Integer.toString(myQuicksortMedian.getC()), Integer.toString(myQuicksortRandom.getC()),
-				Integer.toString(mergesort.getC()), Integer.toString(myMergesort.getC()) });
+				Integer.toString(mergesort.getC()), Integer.toString(myMergesort.getC()), Integer.toString(myHeapsort.getC()) });
 
 		values.add(new String[] { "Rekursionstiefe", "-", Integer.toString(quicksort.getRekursionDepth()), Integer.toString(myQuicksort.getRekursionDepth()),
 				Integer.toString(myQuicksortMedian.getRekursionDepth()), Integer.toString(myQuicksortRandom.getRekursionDepth()),
-				Integer.toString(mergesort.getRekursionDepth()), Integer.toString(myMergesort.getRekursionDepth()) });
+				Integer.toString(mergesort.getRekursionDepth()), Integer.toString(myMergesort.getRekursionDepth()), "-" });
 
 		return values;
 
