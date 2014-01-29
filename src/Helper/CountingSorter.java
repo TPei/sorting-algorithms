@@ -2,7 +2,7 @@ package Helper;
 
 public abstract class CountingSorter
 {
-	private long counter = 0;
+	private long stepCount = 0;
 	private int rekursionDepth = 0;
 	
 	public int getRekursionDepth()
@@ -20,15 +20,15 @@ public abstract class CountingSorter
 		this.rekursionDepth++;
 	}
 
-	protected int c(int i)
+	public int countStep(int i)
 	{
-		counter++;
+		stepCount++;
 		return i;
 	}
 	
-	protected long getStepcount()
+	public long getStepcount()
 	{
-		return counter;
+		return stepCount;
 	}
 
 }

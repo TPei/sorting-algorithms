@@ -1,4 +1,4 @@
-package Sorting;
+package sortingAlgorithms;
 
 import Helper.CountingSorter;
 import Helper.Sorter;
@@ -21,8 +21,8 @@ public class Mergesort extends CountingSorter implements Sorter
 		length = array.length;
 
 		// depending on variant...
-		helperArray = new int[c((length + 1) / 2)];
-		helperArray = new int[c(length)];
+		helperArray = new int[countStep((length + 1) / 2)];
+		helperArray = new int[countStep(length)];
 		mergesort(0, length - 1);
 	}
 
@@ -60,7 +60,7 @@ public class Mergesort extends CountingSorter implements Sorter
 
 		// copy both halves into the helperArray
 		for (i = low; i <= high; i++)
-			helperArray[c(i)] = array[c(i)];
+			helperArray[countStep(i)] = array[countStep(i)];
 
 		i = low;
 		j = middle + 1;
@@ -68,14 +68,14 @@ public class Mergesort extends CountingSorter implements Sorter
 		
 		// copy back largest remaining element
 		while (i <= middle && j <= high)
-			if (helperArray[c(i)] <= helperArray[c(j)])
-				array[c(k++)] = helperArray[c(i++)];
+			if (helperArray[countStep(i)] <= helperArray[countStep(j)])
+				array[countStep(k++)] = helperArray[countStep(i++)];
 			else
-				array[c(k++)] = helperArray[c(j++)];
+				array[countStep(k++)] = helperArray[countStep(j++)];
 
 		// copy back rest of first half (if neccessary)
 		while (i <= middle)
-			array[c(k++)] = helperArray[c(i++)];
+			array[countStep(k++)] = helperArray[countStep(i++)];
 	}
 
 }

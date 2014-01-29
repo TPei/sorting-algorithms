@@ -11,7 +11,7 @@
  *  bis teils über 50% weniger Schritte (1000 Elemente, bereits absteigend sortiert) gesunken.
  *  Die Rekursionstiefe lag im Schnitt bei < 1/10. 
  */
-package Sorting;
+package sortingAlgorithms;
 
 import Helper.CountingSorter;
 import Helper.Sorter;
@@ -49,14 +49,14 @@ public class QuicksortB extends CountingSorter implements Sorter
 			int i = low, j = high;
 
 			// comparision element x
-			int x = array[c((low + high) / 2)];
+			int x = array[countStep((low + high) / 2)];
 
 			// splitting
 			while (i <= j)
 			{
-				while (array[c(i)] < x)
+				while (array[countStep(i)] < x)
 					i++;
-				while (array[c(j)] > x)
+				while (array[countStep(j)] > x)
 					j--;
 				if (i <= j)
 				{
@@ -90,9 +90,9 @@ public class QuicksortB extends CountingSorter implements Sorter
 	 */
 	private void exchange(int i, int j)
 	{
-		int temp = array[c(i)];
-		array[c(i)] = array[c(j)];
-		array[c(j)] = temp;
+		int temp = array[countStep(i)];
+		array[countStep(i)] = array[countStep(j)];
+		array[countStep(j)] = temp;
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class QuicksortB extends CountingSorter implements Sorter
 	{
 		// keep checking as long as a[i+1] is >= a[i]
 		for (int i = low; i < high - 1; i++)
-			if (array[c(i + 1)] < array[c(i)])
+			if (array[countStep(i + 1)] < array[countStep(i)])
 				return false;
 		return true;
 	}
@@ -135,13 +135,13 @@ public class QuicksortB extends CountingSorter implements Sorter
 		for (i = low; i <= high; i++)
 		{
 			j = i;
-			t = array[c(j)];
+			t = array[countStep(j)];
 			while (j > 0 && array[j - 1] > t)
 			{
-				array[c(j)] = array[c(j - 1)];
+				array[countStep(j)] = array[countStep(j - 1)];
 				j--;
 			}
-			array[c(j)] = t;
+			array[countStep(j)] = t;
 		}
 	}
 

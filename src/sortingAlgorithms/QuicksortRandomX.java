@@ -1,4 +1,4 @@
-package Sorting;
+package sortingAlgorithms;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -31,13 +31,13 @@ public class QuicksortRandomX extends CountingSorter implements Sorter
         //int x=a[c((lo+hi)/2)];
         
         // random element as comparision element
-        int x = a[c((int)(Math.random()*a.length))];
+        int x = a[countStep((int)(Math.random()*a.length))];
         
         //  Aufteilung
         while (i<=j)
         {    
-            while (a[c(i)]<x) i++; 
-            while (a[c(j)]>x) j--;
+            while (a[countStep(i)]<x) i++; 
+            while (a[countStep(j)]>x) j--;
             if (i<=j)
             {
                 exchange(i, j);
@@ -52,9 +52,9 @@ public class QuicksortRandomX extends CountingSorter implements Sorter
 
 	private void exchange(int i, int j)
     {
-        int t=a[c(i)];
-        a[c(i)]=a[c(j)];
-        a[c(j)]=t;
+        int t=a[countStep(i)];
+        a[countStep(i)]=a[countStep(j)];
+        a[countStep(j)]=t;
     }
 
 }    // end class QuickSorter

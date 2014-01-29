@@ -1,4 +1,4 @@
-package Sorting;
+package sortingAlgorithms;
 
 import Helper.CountingSorter;
 import Helper.Sorter;
@@ -27,13 +27,13 @@ public class Quicksort extends CountingSorter implements Sorter {
 		int i = low, j = high;
 
 		// pick middle element as comparison element
-		int comparisonElement = array[c((low + high) / 2)];
+		int comparisonElement = array[countStep((low + high) / 2)];
 
 		// splitting
 		while (i <= j) {
-			while (array[c(i)] < comparisonElement)
+			while (array[countStep(i)] < comparisonElement)
 				i++;
-			while (array[c(j)] > comparisonElement)
+			while (array[countStep(j)] > comparisonElement)
 				j--;
 			if (i <= j) {
 				exchange(i, j);
@@ -55,9 +55,9 @@ public class Quicksort extends CountingSorter implements Sorter {
 	 * @param j second element to swap
 	 */
 	private void exchange(int i, int j) {
-		int temp = array[c(i)];
-		array[c(i)] = array[c(j)];
-		array[c(j)] = temp;
+		int temp = array[countStep(i)];
+		array[countStep(i)] = array[countStep(j)];
+		array[countStep(j)] = temp;
 	}
 
 }

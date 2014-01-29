@@ -1,4 +1,4 @@
-package Sorting;
+package sortingAlgorithms;
 
 import Helper.CountingSorter;
 import Helper.Sorter;
@@ -42,11 +42,11 @@ public class Heapsort extends CountingSorter implements Sorter {
 		int childNode = 2 * node + 1; // first child of "node"
 		while (childNode < length) {
 			if (childNode + 1 < length) // is there a second child?
-				if (array[c(childNode + 1)] > array[c(childNode)])
+				if (array[countStep(childNode + 1)] > array[countStep(childNode)])
 					childNode++;
 			// childnode is child of node with max value
 
-			if (array[c(node)] >= array[c(childNode)])
+			if (array[countStep(node)] >= array[countStep(childNode)])
 				return; // node got heap property
 			// else
 			exchange(node, childNode); // swap node and child
@@ -62,9 +62,9 @@ public class Heapsort extends CountingSorter implements Sorter {
 	 * @param j element two to be switched
 	 */
 	private void exchange(int i, int j) {
-		int temp = array[c(i)];
-		array[c(i)] = array[c(j)];
-		array[c(j)] = temp;
+		int temp = array[countStep(i)];
+		array[countStep(i)] = array[countStep(j)];
+		array[countStep(j)] = temp;
 	}
 
 }

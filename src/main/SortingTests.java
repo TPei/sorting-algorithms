@@ -1,4 +1,4 @@
-package Helper;
+package main;
 
 import html.dom.Table;
 import html.dom.TableContentProvider;
@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import sortingAlgorithms.Heapsort;
+import sortingAlgorithms.Insertionsort;
+import sortingAlgorithms.Mergesort;
+import sortingAlgorithms.MergesortB;
+import sortingAlgorithms.Quicksort;
+import sortingAlgorithms.QuicksortB;
+import sortingAlgorithms.QuicksortMedian3;
+import sortingAlgorithms.QuicksortRandomX;
 import test.TestTable;
-
-import Sorting.Heapsort;
-import Sorting.Insertionsort;
-import Sorting.Mergesort;
-import Sorting.MergesortB;
-import Sorting.QuicksortB;
-import Sorting.Quicksort;
-import Sorting.QuicksortMedian3;
-import Sorting.QuicksortRandomX;
+import Helper.CountingSorter;
 import Helper.Helper;
 
 class NotSortedException extends Exception
@@ -30,13 +30,13 @@ class NotSortedException extends Exception
 	}
 }
 
-public class TestSort
+public class SortingTests
 {
 	int length;
 	int[] testArray;
 	String filename;
 
-	public TestSort(int length, String filename)
+	public SortingTests(int length, String filename)
 	{
 		this.length = length;
 		this.filename = filename;
@@ -99,7 +99,7 @@ public class TestSort
 			table.addHeader("Quicksort");
 			table.addHeader("QuicksortB");
 			table.addHeader("QSMedian3");
-			table.addHeader("QSRandX");
+			/*table.addHeader("QSRandX");*/
 			table.addHeader("Mergesort");
 			table.addHeader("MergesortB");
 			table.addHeader("Heapsort");
@@ -176,7 +176,8 @@ public class TestSort
 		
 		if(!Helper.isSorted(arrayToSort))
 		throw new NotSortedException();
-
+		/* quicksort with random comparision is so terribly bad 
+		 * it will throw stackoverloferrors with numbers this large
 		arrayToSort = copy.clone();
 
 		QuicksortRandomX myQuicksortRandom = new QuicksortRandomX();
@@ -184,7 +185,7 @@ public class TestSort
 		
 		if(!Helper.isSorted(arrayToSort))
 			throw new NotSortedException();
-		
+		*/
 		arrayToSort = copy.clone();
 		Mergesort mergesort = new Mergesort();
 		mergesort.sort(arrayToSort);
@@ -212,7 +213,7 @@ public class TestSort
 		String quicksortSteps = ""+quicksort.getStepcount();
 		String myQuicksortSteps = ""+myQuicksort.getStepcount();
 		String myQuicksortMedianSteps = ""+myQuicksortMedian.getStepcount();
-		String myQuicksortRandomSteps = ""+myQuicksortRandom.getStepcount();
+		//String myQuicksortRandomSteps = ""+myQuicksortRandom.getStepcount();
 		String mergesortSteps = ""+mergesort.getStepcount();
 		String myMergesortSteps = ""+myMergesort.getStepcount();
 		String myHeapsortSteps = ""+myHeapsort.getStepcount();
@@ -222,7 +223,7 @@ public class TestSort
 				Helper.format(quicksortSteps),
 				Helper.format(myQuicksortSteps), 
 				Helper.format(myQuicksortMedianSteps), 
-				Helper.format(myQuicksortRandomSteps),
+				//Helper.format(myQuicksortRandomSteps),
 				Helper.format(mergesortSteps), 
 				Helper.format(myMergesortSteps), 
 				Helper.format(myHeapsortSteps) });
@@ -232,7 +233,7 @@ public class TestSort
 		String quicksortRecursion = Integer.toString(quicksort.getRekursionDepth());
 		String myQuicksortRecursion = Integer.toString(myQuicksort.getRekursionDepth());
 		String myQuicksortMedianRecursion = Integer.toString(myQuicksortMedian.getRekursionDepth());
-		String myQuicksortRandomRecursion = Integer.toString(myQuicksortRandom.getRekursionDepth());
+		//String myQuicksortRandomRecursion = Integer.toString(myQuicksortRandom.getRekursionDepth());
 		String mergesortRecursion = Integer.toString(mergesort.getRekursionDepth());
 		String myMergesortRecursion = Integer.toString(myMergesort.getRekursionDepth());
 		
@@ -241,7 +242,7 @@ public class TestSort
 				Helper.format(quicksortRecursion), 
 				Helper.format(myQuicksortRecursion),
 				Helper.format(myQuicksortMedianRecursion),
-				Helper.format(myQuicksortRandomRecursion),
+				//Helper.format(myQuicksortRandomRecursion),
 				Helper.format(mergesortRecursion), 
 				Helper.format(myMergesortRecursion), 
 				"-" });

@@ -1,4 +1,4 @@
-package Sorting;
+package sortingAlgorithms;
 
 import Helper.CountingSorter;
 import Helper.Sorter;
@@ -30,18 +30,18 @@ public class Insertionsort extends CountingSorter implements Sorter {
 			j = i;
 
 			// save the element to be moved
-			temporaryElement = array[c(j)];
+			temporaryElement = array[countStep(j)];
 
 			// find the right position to move the element to
 			while (j > 0 && array[j - 1] > temporaryElement) {
 				// move element to the right to make space for element to be
 				// sorted
-				array[c(j)] = array[c(j - 1)];
+				array[countStep(j)] = array[countStep(j - 1)];
 				j--;
 			}
 
 			// move temp element to the right position of sorted array part
-			array[c(j)] = temporaryElement;
+			array[countStep(j)] = temporaryElement;
 		}
 	}
 }

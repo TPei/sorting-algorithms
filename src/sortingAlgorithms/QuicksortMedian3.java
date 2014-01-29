@@ -1,4 +1,4 @@
-package Sorting;
+package sortingAlgorithms;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -28,23 +28,23 @@ public class QuicksortMedian3 extends CountingSorter implements Sorter
 
 		int middle = (low + high) / 2;
 		int comparisonElement;
-		if (array[c(middle)] < array[c(high)] && array[c(middle)] > array[c(low)])
+		if (array[countStep(middle)] < array[countStep(high)] && array[countStep(middle)] > array[countStep(low)])
 		{
-			comparisonElement = array[c(middle)];
-		} else if (array[c(middle)] > array[c(high)])
+			comparisonElement = array[countStep(middle)];
+		} else if (array[countStep(middle)] > array[countStep(high)])
 		{
-			comparisonElement = array[c(high)];
+			comparisonElement = array[countStep(high)];
 		} else
 		{
-			comparisonElement = array[c(low)];
+			comparisonElement = array[countStep(low)];
 		}
 
 		// splitting
 		while (i <= j)
 		{
-			while (array[c(i)] < comparisonElement)
+			while (array[countStep(i)] < comparisonElement)
 				i++;
-			while (array[c(j)] > comparisonElement)
+			while (array[countStep(j)] > comparisonElement)
 				j--;
 			if (i <= j)
 			{
@@ -69,9 +69,9 @@ public class QuicksortMedian3 extends CountingSorter implements Sorter
 	 */
 	private void exchange(int i, int j)
 	{
-		int temp = array[c(i)];
-		array[c(i)] = array[c(j)];
-		array[c(j)] = temp;
+		int temp = array[countStep(i)];
+		array[countStep(i)] = array[countStep(j)];
+		array[countStep(j)] = temp;
 	}
 
 }
