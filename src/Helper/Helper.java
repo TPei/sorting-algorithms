@@ -39,5 +39,27 @@ public class Helper
     			return false;
 		return true;
 	}
+    
+    /**
+     * formats a string so that it has the format abc.def.ghi
+     *(split after every third char, starting from the back)
+     * @param input
+     * @return formatted string
+     */
+    public static String format(String input){
+		int count = 0;
+		int countThree = 0;
+		int length = input.length();
+		for(int i = length-1; i >= 0; i--, count++, countThree++){
+			if(countThree >= 3){
+				input = input.substring(0, length-count) + "." + input.substring(length-count, length);
+				length++;
+				count++;
+				countThree = 0;
+			}
+		}
+		
+		return input;
+	}
 	
 }

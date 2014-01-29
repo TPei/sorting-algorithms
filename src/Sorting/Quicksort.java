@@ -1,53 +1,63 @@
 package Sorting;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-
 import Helper.CountingSorter;
 import Helper.Sorter;
 
-public class Quicksort extends CountingSorter implements Sorter
-{
-	private int[] a;
-    private int n;
+public class Quicksort extends CountingSorter implements Sorter {
+	private int[] array;
+	private int length;
 
-    public void sort(int[] a)
-    {
-        this.a=a;
-        n=a.length;
-        quicksort(0, n-1);
-    }
+	/**
+	 * sort an array
+	 * @param array array to be sorted
+	 */
+	public void sort(int[] array) {
+		this.array = array;
+		length = array.length;
+		quicksort(0, length - 1);
+	}
 
-    private void quicksort (int lo, int hi)
-    {
-    	incrementRekursionDepth();
-        int i=lo, j=hi;
+	/**
+	 * quicksort alogrithm
+	 * @param low lower boundary of array part to be quicksorted
+	 * @param high upper boundary of array part to be quicksorted
+	 */
+	private void quicksort(int low, int high) {
+		incrementRekursionDepth();
+		int i = low, j = high;
 
-        // Vergleichs­element x
-        int x=a[c((lo+hi)/2)];
+		// pick middle element as comparison element
+		int comparisonElement = array[c((low + high) / 2)];
 
-        //  Aufteilung
-        while (i<=j)
-        {    
-            while (a[c(i)]<x) i++; 
-            while (a[c(j)]>x) j--;
-            if (i<=j)
-            {
-                exchange(i, j);
-                i++; j--;
-            }
-        }
+		// splitting
+		while (i <= j) {
+			while (array[c(i)] < comparisonElement)
+				i++;
+			while (array[c(j)] > comparisonElement)
+				j--;
+			if (i <= j) {
+				exchange(i, j);
+				i++;
+				j--;
+			}
+		}
 
-        // Rekursion
-        if (lo<j) quicksort(lo, j);
-        if (i<hi) quicksort(i, hi);
-    }
+		// recursive quicksort call
+		if (low < j)
+			quicksort(low, j);
+		if (i < high)
+			quicksort(i, high);
+	}
 
-    private void exchange(int i, int j)
-    {
-        int t=a[c(i)];
-        a[c(i)]=a[c(j)];
-        a[c(j)]=t;
-    }
+	/**
+	 * swap elements in array
+	 * @param i first element to swap
+	 * @param j second element to swap
+	 */
+	private void exchange(int i, int j) {
+		int temp = array[c(i)];
+		array[c(i)] = array[c(j)];
+		array[c(j)] = temp;
+	}
 
-}    // end class QuickSort
+}

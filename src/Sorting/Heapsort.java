@@ -3,57 +3,68 @@ package Sorting;
 import Helper.CountingSorter;
 import Helper.Sorter;
 
-public class Heapsort extends CountingSorter implements Sorter
-{
-    private int[] a;
-    private int n;
+public class Heapsort extends CountingSorter implements Sorter {
+	private int[] array;
+	private int length;
 
-    public void sort(int[] a)
-    {
-        this.a=a;
-        n=a.length;
-        heapsort();
-    }
+	/**
+	 * sort an array
+	 * @param array array to be sorted
+	 */
+	public void sort(int[] array) {
+		this.array = array;
+		length = array.length;
+		heapsort();
+	}
 
-    private void heapsort()
-    {
-        buildheap();
-        while (n>1)
-        {
-            n--;
-            exchange(0, n);
-            downheap(0);
-        } 
-    }
+	private void heapsort() {
+		buildheap();
+		while (length > 1) {
+			length--;
+			exchange(0, length);
+			downheap(0);
+		}
+	}
 
-    private void buildheap()
-    {
-        for (int v=n/2-1; v>=0; v--)
-            downheap(v);
-    }
+	/**
+	 * create a heap from array
+	 */
+	private void buildheap() {
+		for (int node = length / 2 - 1; node >= 0; node--)
+			downheap(node);
+	}
 
-    private void downheap(int v)
-    {
-        int w=2*v+1;         // erster Nachfolger von v
-        while (w<n)
-        {
-            if (w+1<n)       // gibt es einen zweiten Nachfolger?
-                if (a[c(w+1)]>a[c(w)]) w++;
-            // w ist der Nachfolger von v mit maximaler Markierung
+	/**
+	 * downheap
+	 * @param node considered top node for now
+	 */
+	private void downheap(int node) {
+		int childNode = 2 * node + 1; // first child of "node"
+		while (childNode < length) {
+			if (childNode + 1 < length) // is there a second child?
+				if (array[c(childNode + 1)] > array[c(childNode)])
+					childNode++;
+			// childnode is child of node with max value
 
-            if (a[c(v)]>=a[c(w)]) return;  // v hat die Heap-Eigenschaft
-            // sonst
-            exchange(v, w);  // vertausche Markierungen von v und w
-            v=w;             // fahre mit v=w fort
-            w=2*v+1;
-        }
-    }
+			if (array[c(node)] >= array[c(childNode)])
+				return; // node got heap property
+			// else
+			exchange(node, childNode); // swap node and child
+			node = childNode; // go on with node = childnode
+			childNode = 2 * node + 1;
+		}
+	}
 
-    private void exchange(int i, int j)
-    {
-        int t=a[c(i)];
-        a[c(i)]=a[c(j)];
-        a[c(j)]=t;
-    }
+	/**
+	 * switch two elements in heap
+	 * 
+	 * @param i element one to be switched
+	 * @param j element two to be switched
+	 */
+	private void exchange(int i, int j) {
+		int temp = array[c(i)];
+		array[c(i)] = array[c(j)];
+		array[c(j)] = temp;
+	}
 
-}    // end class HeapSorter
+}

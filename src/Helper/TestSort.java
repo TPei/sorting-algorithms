@@ -14,14 +14,12 @@ import test.TestTable;
 import Sorting.Heapsort;
 import Sorting.Insertionsort;
 import Sorting.Mergesort;
-import Sorting.MyMergesort;
-import Sorting.MyQuicksort;
-import Sorting.QuicksortCombined;
-import Sorting.QuicksortJannik;
+import Sorting.MergesortB;
+import Sorting.QuicksortB;
 import Sorting.Quicksort;
-import Sorting.QuicksortJonas;
-import Sorting.QuicksortMedian3X;
+import Sorting.QuicksortMedian3;
 import Sorting.QuicksortRandomX;
+import Helper.Helper;
 
 class NotSortedException extends Exception
 {
@@ -36,10 +34,12 @@ public class TestSort
 {
 	int length;
 	int[] testArray;
+	String filename;
 
-	public TestSort(int length)
+	public TestSort(int length, String filename)
 	{
 		this.length = length;
+		this.filename = filename;
 
 		int arrayLength = length;
 		testArray = new int[arrayLength];
@@ -54,38 +54,54 @@ public class TestSort
 	{
 		try
 		{
-			BufferedWriter testWriter = new BufferedWriter(new FileWriter("ausgabe2.html"));
+			BufferedWriter testWriter = new BufferedWriter(new FileWriter(filename+".html"));
 			testWriter.write("<html><head></head><body>");
 			
 			List<String[]> values = new ArrayList<>();
 			
 			// random array
-			values = getValueList(testArray, "unsortiert", values);
+			values = getValueList(testArray, filename,  "unsortiert", values);
 						
 			// now it's sorted
-			values = getValueList(testArray, "vorsortiert", values);
+			values = getValueList(testArray, filename, "vorsortiert", values);
 
 			// reverse sorted
 			Helper.reverseArray(testArray);
-			values = getValueList(testArray, "absteigend sortiert", values);
+			values = getValueList(testArray, filename, "absteigend sortiert", values);
 
 			// only small numbers
-			for (int i = 0; i < length; i++)
+			/*for (int i = 0; i < length; i++)
 			{
 				int n = (int) (Math.random() * 99);
 				testArray[i] = n;
 			}
-			values = getValueList(testArray, "Wertebereich 0-99", values);
+			values = getValueList(testArray, "Wertebereich 0-99", values);*/
+			
+			// partially presorted array
+			int k = 0;
+			int temp = 0;
+			for (int i = 0; i < length; i++)
+			{
+				if(k != 0)
+					temp = (int) (Math.random() * 10);
+				testArray[i] = temp;
+				
+				if(k >= 5)
+					k = 0;
+				else
+					k++;
+			}
+			values = getValueList(testArray, filename, "Teilweise sortiert", values);
 			
 			Table<String[]> table = new Table<>(values);
-			table.addHeader("Versuche");
+			table.addHeader("Versucheseigenschaften");
 			table.addHeader("Insertionsort");
 			table.addHeader("Quicksort");
-			table.addHeader("MyQuicksort");
-			table.addHeader("QuicksortMedianX");
-			table.addHeader("QuicksortRandomX");
+			table.addHeader("QuicksortB");
+			table.addHeader("QSMedian3");
+			table.addHeader("QSRandX");
 			table.addHeader("Mergesort");
-			table.addHeader("MyMergesort");
+			table.addHeader("MergesortB");
 			table.addHeader("Heapsort");
 
 			table.setContentProvider(new TableContentProvider<String[]>()
@@ -124,8 +140,10 @@ public class TestSort
 	 * @param values
 	 * @return List<String[]> of values
 	 */
-	private List<String[]> getValueList(int[] arrayToSort, String status, List<String[]> values) throws NotSortedException
+	private List<String[]> getValueList(int[] arrayToSort, String problemSize, String status, List<String[]> values) throws NotSortedException
 	{
+		
+		// do all sorts
 		int length = arrayToSort.length;
 		int[] copy = arrayToSort.clone();
 
@@ -141,23 +159,23 @@ public class TestSort
 		quicksort.sort(arrayToSort);
 		
 		if(!Helper.isSorted(arrayToSort))
-			throw new NotSortedException();
+		throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
-		MyQuicksort myQuicksort = new MyQuicksort();
+		QuicksortB myQuicksort = new QuicksortB();
 		myQuicksort.sort(arrayToSort);
 		
 		if(!Helper.isSorted(arrayToSort))
-			throw new NotSortedException();
+		throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
-		QuicksortMedian3X myQuicksortMedian = new QuicksortMedian3X();
+		QuicksortMedian3 myQuicksortMedian = new QuicksortMedian3();
 		myQuicksortMedian.sort(arrayToSort);
 		
 		if(!Helper.isSorted(arrayToSort))
-			throw new NotSortedException();
+		throw new NotSortedException();
 
 		arrayToSort = copy.clone();
 
@@ -166,35 +184,67 @@ public class TestSort
 		
 		if(!Helper.isSorted(arrayToSort))
 			throw new NotSortedException();
-
+		
 		arrayToSort = copy.clone();
 		Mergesort mergesort = new Mergesort();
 		mergesort.sort(arrayToSort);
 		
 		if(!Helper.isSorted(arrayToSort))
-			throw new NotSortedException();
+		throw new NotSortedException();
 
 		arrayToSort = copy.clone();
-		MyMergesort myMergesort = new MyMergesort();
+		MergesortB myMergesort = new MergesortB();
 		myMergesort.sort(arrayToSort);
 		
 		if(!Helper.isSorted(arrayToSort))
-			throw new NotSortedException();
+		throw new NotSortedException();
 		
 		arrayToSort = copy.clone();
 		Heapsort myHeapsort = new Heapsort();
 		myHeapsort.sort(arrayToSort);
 		
 		if(!Helper.isSorted(arrayToSort))
-			throw new NotSortedException();
+		throw new NotSortedException();
 
-		values.add(new String[] { "Sort mit " + length + " Elementen " + status, Integer.toString(myInsertion.getC()), Integer.toString(quicksort.getC()),
-				Integer.toString(myQuicksort.getC()), Integer.toString(myQuicksortMedian.getC()), Integer.toString(myQuicksortRandom.getC()),
-				Integer.toString(mergesort.getC()), Integer.toString(myMergesort.getC()), Integer.toString(myHeapsort.getC()) });
-
-		values.add(new String[] { "Rekursionstiefe", "-", Integer.toString(quicksort.getRekursionDepth()), Integer.toString(myQuicksort.getRekursionDepth()),
-				Integer.toString(myQuicksortMedian.getRekursionDepth()), Integer.toString(myQuicksortRandom.getRekursionDepth()),
-				Integer.toString(mergesort.getRekursionDepth()), Integer.toString(myMergesort.getRekursionDepth()), "-" });
+		
+		// add stepscount to table
+		String myInsertionSteps = ""+myInsertion.getStepcount();
+		String quicksortSteps = ""+quicksort.getStepcount();
+		String myQuicksortSteps = ""+myQuicksort.getStepcount();
+		String myQuicksortMedianSteps = ""+myQuicksortMedian.getStepcount();
+		String myQuicksortRandomSteps = ""+myQuicksortRandom.getStepcount();
+		String mergesortSteps = ""+mergesort.getStepcount();
+		String myMergesortSteps = ""+myMergesort.getStepcount();
+		String myHeapsortSteps = ""+myHeapsort.getStepcount();
+		
+		values.add(new String[] { problemSize + " Elemente, " + status, 
+				Helper.format(myInsertionSteps), 
+				Helper.format(quicksortSteps),
+				Helper.format(myQuicksortSteps), 
+				Helper.format(myQuicksortMedianSteps), 
+				Helper.format(myQuicksortRandomSteps),
+				Helper.format(mergesortSteps), 
+				Helper.format(myMergesortSteps), 
+				Helper.format(myHeapsortSteps) });
+		
+		
+		// add recursiondepth to table
+		String quicksortRecursion = Integer.toString(quicksort.getRekursionDepth());
+		String myQuicksortRecursion = Integer.toString(myQuicksort.getRekursionDepth());
+		String myQuicksortMedianRecursion = Integer.toString(myQuicksortMedian.getRekursionDepth());
+		String myQuicksortRandomRecursion = Integer.toString(myQuicksortRandom.getRekursionDepth());
+		String mergesortRecursion = Integer.toString(mergesort.getRekursionDepth());
+		String myMergesortRecursion = Integer.toString(myMergesort.getRekursionDepth());
+		
+		values.add(new String[] { "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr;&nbsp;Rekursionstiefe", 
+				"-", 
+				Helper.format(quicksortRecursion), 
+				Helper.format(myQuicksortRecursion),
+				Helper.format(myQuicksortMedianRecursion),
+				Helper.format(myQuicksortRandomRecursion),
+				Helper.format(mergesortRecursion), 
+				Helper.format(myMergesortRecursion), 
+				"-" });
 
 		return values;
 
